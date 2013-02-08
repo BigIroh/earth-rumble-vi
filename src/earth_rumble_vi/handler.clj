@@ -2,7 +2,8 @@
   (:use compojure.core
         hiccup.core)
   (:require [compojure.handler :as handler]
-            [compojure.route :as route]))
+            [compojure.route :as route]
+            [earth-rumble-vi.contest :as contest]))
 
 (defn hello-user
   [id]
@@ -11,7 +12,8 @@
     [:p "hello " id]))
 
 (defroutes app-routes
-  (GET "/:id" [id] (hello-user id))
+  (GET "/contest/:id" [id] (contest/page id))
+  (GET "/problem/:id/:file" [id file] (slurp-resource (str "public/problem/" id "/" file))
   (route/not-found "Not Found"))
 
 (def app
